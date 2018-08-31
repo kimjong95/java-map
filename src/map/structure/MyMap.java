@@ -90,7 +90,7 @@ public class MyMap implements MyStringMap {
 
 		size++;
 
-		if ((size * load_factor) > table.length) {
+		if (size > (table.length* load_factor) && ((table.length * 2)) < (2^32)) {
 			resize();
 		}
 	}
@@ -116,14 +116,15 @@ public class MyMap implements MyStringMap {
 	@Override
 	public Set<String> keySet() {
 		// set이 맵에 포함되고있는 키의 뷰를 반환
-		Set<String> ks = new MySet();
-		return ks;
+		Set<String> keySet = new MySet();
+		return keySet;
 	}
 
 	@Override
 	public Collection<String> values() {
 		// 컬렉션이 Map에 포함되어있는 값을 반환
-		return null;
+		Collection<String> value = new MyCollection();
+		return value;
 	}
 
 	@Override
@@ -178,19 +179,19 @@ public class MyMap implements MyStringMap {
 
 	}
 
-	private void putValue(Entry inputEntry) {
-		//
-		Entry findEntry = table[indexOfHash(inputEntry.hash)];
-
-		if (findEntry == null) {
-			table[indexOfHash(inputEntry.hash)] = inputEntry;
-		} else {
-
-			table[indexOfHash(inputEntry.hash)] = inputEntry;
-			inputEntry.nextEntry = findEntry;
-
-		}
-	}
+//	private void putValue(Entry inputEntry) {
+//		//
+//		Entry findEntry = table[indexOfHash(inputEntry.hash)];
+//
+//		if (findEntry == null) {
+//			table[indexOfHash(inputEntry.hash)] = inputEntry;
+//		} else {
+//
+//			table[indexOfHash(inputEntry.hash)] = inputEntry;
+//			inputEntry.nextEntry = findEntry;
+//
+//		}
+//	}
 
 	private Entry getEntry(String key) {
 		//
@@ -220,6 +221,10 @@ public class MyMap implements MyStringMap {
 
 	private void resize() {
 		//
+//		if((table.length * 2) > (2^32)) {
+//			return;
+//		}
+		
 		Entry[] oldTable = table;
 
 		int newCapacity = prime(table.length * 2);
@@ -234,12 +239,9 @@ public class MyMap implements MyStringMap {
 
 	private void relocationOfEntry(Entry[] newTable, Entry[] oldTable) {
 		//
-		int i = 0;
 		for (Entry entry : oldTable) {
 			while (entry != null) {
 
-				int index = indexOfHash(entry.hash);
-				Entry relocationEntry = new Entry(entry.key, entry.value);
 				put(entry.key, entry.value);
 
 				entry = entry.nextEntry;
@@ -295,198 +297,199 @@ public class MyMap implements MyStringMap {
 			return key;
 		}
 
-		public String getValue() {
-			return value;
-		}
+//		public String getValue() {
+//			return value;
+//		}
 
 		public void setValue(String updateValue) {
 			this.value = updateValue;
 		}
 
-		public boolean equals(String findValue) {
-			//
-			return (value == findValue);
-		}
-
-		public int hashcode() {
-			//
-			return hash;
-		}
+//		public boolean equals(String findValue) {
+//			//
+//			return (value == findValue);
+//		}
+//
+//		public int hashcode() {
+//			//
+//			return hash;
+//		}
 	}
 
 	private class MySet implements Set<String> {
 
 		@Override
 		public int size() {
-			// TODO Auto-generated method stub
+			// 
 			return 0;
 		}
 
 		@Override
 		public boolean isEmpty() {
-			// TODO Auto-generated method stub
+			//
 			return false;
 		}
 
 		@Override
 		public boolean contains(Object o) {
-			// TODO Auto-generated method stub
+			// 
 			return false;
 		}
 
 		@Override
 		public Iterator<String> iterator() {
-			// TODO Auto-generated method stub
-			return new MyIterator();
+			// 
+			return new SetIterator();
 		}
 
 		@Override
 		public Object[] toArray() {
-			// TODO Auto-generated method stub
+			// 
 			return null;
 		}
 
 		@Override
 		public <T> T[] toArray(T[] a) {
-			// TODO Auto-generated method stub
+			// 
 			return null;
 		}
 
 		@Override
 		public boolean add(String e) {
-			// TODO Auto-generated method stub
+			// 
 			return false;
 		}
 
 		@Override
 		public boolean remove(Object o) {
-			// TODO Auto-generated method stub
+			//
 			return false;
 		}
 
 		@Override
 		public boolean containsAll(Collection<?> c) {
-			// TODO Auto-generated method stub
+			// 
 			return false;
 		}
 
 		@Override
 		public boolean addAll(Collection<? extends String> c) {
-			// TODO Auto-generated method stub
+			// 
 			return false;
 		}
 
 		@Override
 		public boolean retainAll(Collection<?> c) {
-			// TODO Auto-generated method stub
+			// 
 			return false;
 		}
 
 		@Override
 		public boolean removeAll(Collection<?> c) {
-			// TODO Auto-generated method stub
+			// 
 			return false;
 		}
 
 		@Override
 		public void clear() {
-			// TODO Auto-generated method stub
+			// 
 
 		}
 
 	}
 
-	private class MyCollection implements Collection {
+	private class MyCollection implements Collection<String> {
 		//
 
 		@Override
 		public Iterator<String> iterator() {
-			// TODO Auto-generated method stub
-			return null;
+			//
+			return new ColIterator();
 		}
 
 		@Override
 		public int size() {
-			// TODO Auto-generated method stub
+			// 
 			return 0;
 		}
 
 		@Override
 		public boolean isEmpty() {
-			// TODO Auto-generated method stub
+			//
 			return false;
 		}
 
 		@Override
 		public boolean contains(Object o) {
-			// TODO Auto-generated method stub
+			//
 			return false;
 		}
 
 		@Override
 		public Object[] toArray() {
-			// TODO Auto-generated method stub
+			//
 			return null;
 		}
 
 		@Override
-		public Object[] toArray(Object[] a) {
-			// TODO Auto-generated method stub
+		public <T> T[] toArray(T[] a) {
+			// 
 			return null;
 		}
 
 		@Override
-		public boolean add(Object e) {
-			// TODO Auto-generated method stub
+		public boolean add(String e) {
+			// 
 			return false;
 		}
 
 		@Override
 		public boolean remove(Object o) {
-			// TODO Auto-generated method stub
+			// 
 			return false;
 		}
 
 		@Override
-		public boolean containsAll(Collection c) {
-			// TODO Auto-generated method stub
+		public boolean containsAll(Collection<?> c) {
+			// 
 			return false;
 		}
 
 		@Override
-		public boolean addAll(Collection c) {
-			// TODO Auto-generated method stub
+		public boolean addAll(Collection<? extends String> c) {
+			//
 			return false;
 		}
 
 		@Override
-		public boolean removeAll(Collection c) {
-			// TODO Auto-generated method stub
+		public boolean removeAll(Collection<?> c) {
+			//
 			return false;
 		}
 
 		@Override
-		public boolean retainAll(Collection c) {
-			// TODO Auto-generated method stub
+		public boolean retainAll(Collection<?> c) {
+			//
 			return false;
 		}
 
 		@Override
 		public void clear() {
-			// TODO Auto-generated method stub
-
+			// 
+			
 		}
+
+		
 
 	}
 
-	private class MyIterator implements Iterator<String> {
+	private class SetIterator implements Iterator<String> {
 		//
 		private int index;
 		private int iterSize;
 		Entry entry;
-		Entry foundEntry;
 
-		public MyIterator() {
+		public SetIterator() {
 			//
 			index = 0;
 			entry = findFirstEntry();
@@ -524,6 +527,69 @@ public class MyMap implements MyStringMap {
 			}
 
 			return findEntry.key;
+		}
+
+		private Entry findFirstEntry() {
+			if (entry == null) {
+				for (int i = index; i < table.length; i++) {
+
+					if (table[index] != null) {
+						System.out.println(index);
+						index = i;
+						entry = table[index++];
+
+						break;
+					}
+				}
+			}
+			return entry;
+		}
+	}
+	
+	private class ColIterator implements Iterator<String> {
+		//
+		private int index;
+		private int iterSize;
+		Entry entry;
+
+		public ColIterator() {
+			//
+			index = 0;
+			entry = findFirstEntry();
+		}
+
+		@Override
+		public boolean hasNext() {
+			//
+			boolean isHasNext = false;
+			if (table.length > iterSize) {
+				isHasNext = true;
+			}
+			return isHasNext;
+		}
+
+		@Override
+		public String next() {
+			//
+			Entry findEntry = entry;
+			System.out.println(entry.nextEntry==null);
+			
+			if (entry.nextEntry == null) {
+				
+				for(int i = index; i<table.length ; i++) {
+					
+					if(table[index] != null) {
+						
+						index = i;
+						entry = table[index++];
+						break;
+					}
+				}
+			} else {
+				entry = entry.nextEntry;
+			}
+
+			return findEntry.value;
 		}
 
 		private Entry findFirstEntry() {
