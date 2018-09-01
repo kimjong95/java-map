@@ -9,7 +9,7 @@ public class MyMap implements MyStringMap {
 	private int size;
 	private Entry[] table;
 
-	private static final int default_prime_ArraySize = 31; // 값을 저장할 배열의 크기를 100으로 설정
+	private static final int default_prime_ArraySize = 16; // 
 
 	private static final float load_factor = 0.75f;
 
@@ -63,34 +63,12 @@ public class MyMap implements MyStringMap {
 		Entry newEntry = new Entry(key, value);
 		newEntry.hash = key.hashCode();
 		Entry findEntry = table[indexOfHash(newEntry.hash)];
-		
-		if (findEntry == null) {
-			table[indexOfHash(newEntry.hash)] = newEntry;
-		} else {
-			while (true) {
-				if(findEntry == null) {
-					Entry saveEntry = table[indexOfHash(newEntry.hash)];
-					table[indexOfHash(newEntry.hash)] = newEntry;
-					newEntry.nextEntry = saveEntry;
-					break;
-				}
-				if (findEntry.key.equals(key)) {
-					findEntry.setValue(value);
-				} else {
-					findEntry = findEntry.nextEntry;
-				}
-			}
-		}
 
-//		if (findEntry.key.equals(key)) {
-//			findEntry.setValue(value);
-//		} else {
-//			putValue(newEntry);
-//		}
+		putValue(newEntry, findEntry);
 
 		size++;
 
-		if (size > (table.length* load_factor) && ((table.length * 2)) < (2^32)) {
+		if (size > (table.length * load_factor)) {
 			resize();
 		}
 	}
@@ -179,19 +157,26 @@ public class MyMap implements MyStringMap {
 
 	}
 
-//	private void putValue(Entry inputEntry) {
-//		//
-//		Entry findEntry = table[indexOfHash(inputEntry.hash)];
-//
-//		if (findEntry == null) {
-//			table[indexOfHash(inputEntry.hash)] = inputEntry;
-//		} else {
-//
-//			table[indexOfHash(inputEntry.hash)] = inputEntry;
-//			inputEntry.nextEntry = findEntry;
-//
-//		}
-//	}
+	private void putValue(Entry inputEntry, Entry findEntry) {
+		//
+		if (findEntry == null) {
+			table[indexOfHash(inputEntry.hash)] = inputEntry;
+		} else {
+			while (true) {
+				if (findEntry == null) {
+					Entry saveEntry = table[indexOfHash(inputEntry.hash)];
+					table[indexOfHash(inputEntry.hash)] = inputEntry;
+					inputEntry.nextEntry = saveEntry;
+					break;
+				}
+				if (findEntry.key.equals(inputEntry.key)) {
+					findEntry.setValue(inputEntry.value);
+				} else {
+					findEntry = findEntry.nextEntry;
+				}
+			}
+		}
+	}
 
 	private Entry getEntry(String key) {
 		//
@@ -221,20 +206,14 @@ public class MyMap implements MyStringMap {
 
 	private void resize() {
 		//
-//		if((table.length * 2) > (2^32)) {
-//			return;
-//		}
-		
+
 		Entry[] oldTable = table;
-
 		int newCapacity = prime(table.length * 2);
-
 		Entry[] newTable = new Entry[newCapacity];
 
 		table = newTable;
-		System.out.println("size UP!");
+
 		relocationOfEntry(newTable, oldTable);
-		// 재배치 해야함
 	}
 
 	private void relocationOfEntry(Entry[] newTable, Entry[] oldTable) {
@@ -247,28 +226,6 @@ public class MyMap implements MyStringMap {
 				entry = entry.nextEntry;
 			}
 		}
-
-		// int index = 0;
-		// Entry next;
-		// Entry findEntry = oldTable[index];
-		//
-		// while (findEntry != null) {
-		// //
-		// System.out.println("while1");
-		//
-		// if (oldTable[index] == null) {
-		// index++;
-		// continue;
-		// }
-		// while (findEntry != null) {
-		// System.out.println("while2");
-		// next = findEntry.nextEntry;
-		// if (next != null) {
-		// next = findEntry.nextEntry;
-		// }
-		// this.putValue(findEntry);
-		// }
-		// }
 	}
 
 	private void clearInEntry(Entry entry) {
@@ -297,30 +254,30 @@ public class MyMap implements MyStringMap {
 			return key;
 		}
 
-//		public String getValue() {
-//			return value;
-//		}
+		// public String getValue() {
+		// return value;
+		// }
 
 		public void setValue(String updateValue) {
 			this.value = updateValue;
 		}
 
-//		public boolean equals(String findValue) {
-//			//
-//			return (value == findValue);
-//		}
-//
-//		public int hashcode() {
-//			//
-//			return hash;
-//		}
+		// public boolean equals(String findValue) {
+		// //
+		// return (value == findValue);
+		// }
+		//
+		// public int hashcode() {
+		// //
+		// return hash;
+		// }
 	}
 
 	private class MySet implements Set<String> {
 
 		@Override
 		public int size() {
-			// 
+			//
 			return 0;
 		}
 
@@ -332,31 +289,31 @@ public class MyMap implements MyStringMap {
 
 		@Override
 		public boolean contains(Object o) {
-			// 
+			//
 			return false;
 		}
 
 		@Override
 		public Iterator<String> iterator() {
-			// 
+			//
 			return new SetIterator();
 		}
 
 		@Override
 		public Object[] toArray() {
-			// 
+			//
 			return null;
 		}
 
 		@Override
 		public <T> T[] toArray(T[] a) {
-			// 
+			//
 			return null;
 		}
 
 		@Override
 		public boolean add(String e) {
-			// 
+			//
 			return false;
 		}
 
@@ -368,31 +325,31 @@ public class MyMap implements MyStringMap {
 
 		@Override
 		public boolean containsAll(Collection<?> c) {
-			// 
+			//
 			return false;
 		}
 
 		@Override
 		public boolean addAll(Collection<? extends String> c) {
-			// 
+			//
 			return false;
 		}
 
 		@Override
 		public boolean retainAll(Collection<?> c) {
-			// 
+			//
 			return false;
 		}
 
 		@Override
 		public boolean removeAll(Collection<?> c) {
-			// 
+			//
 			return false;
 		}
 
 		@Override
 		public void clear() {
-			// 
+			//
 
 		}
 
@@ -409,7 +366,7 @@ public class MyMap implements MyStringMap {
 
 		@Override
 		public int size() {
-			// 
+			//
 			return 0;
 		}
 
@@ -433,25 +390,25 @@ public class MyMap implements MyStringMap {
 
 		@Override
 		public <T> T[] toArray(T[] a) {
-			// 
+			//
 			return null;
 		}
 
 		@Override
 		public boolean add(String e) {
-			// 
+			//
 			return false;
 		}
 
 		@Override
 		public boolean remove(Object o) {
-			// 
+			//
 			return false;
 		}
 
 		@Override
 		public boolean containsAll(Collection<?> c) {
-			// 
+			//
 			return false;
 		}
 
@@ -475,12 +432,9 @@ public class MyMap implements MyStringMap {
 
 		@Override
 		public void clear() {
-			// 
-			
+			//
+
 		}
-
-		
-
 	}
 
 	private class SetIterator implements Iterator<String> {
@@ -509,14 +463,12 @@ public class MyMap implements MyStringMap {
 		public String next() {
 			//
 			Entry findEntry = entry;
-			System.out.println(entry.nextEntry==null);
-			
+
 			if (entry.nextEntry == null) {
-				
-				for(int i = index; i<table.length ; i++) {
-					
-					if(table[index] != null) {
-						
+				for (int i = index; i < table.length; i++) {
+
+					if (table[index] != null) {
+
 						index = i;
 						entry = table[index++];
 						break;
@@ -530,11 +482,12 @@ public class MyMap implements MyStringMap {
 		}
 
 		private Entry findFirstEntry() {
+
 			if (entry == null) {
 				for (int i = index; i < table.length; i++) {
 
-					if (table[index] != null) {
-						System.out.println(index);
+					if (table[i] != null) {
+
 						index = i;
 						entry = table[index++];
 
@@ -545,7 +498,7 @@ public class MyMap implements MyStringMap {
 			return entry;
 		}
 	}
-	
+
 	private class ColIterator implements Iterator<String> {
 		//
 		private int index;
@@ -572,14 +525,12 @@ public class MyMap implements MyStringMap {
 		public String next() {
 			//
 			Entry findEntry = entry;
-			System.out.println(entry.nextEntry==null);
-			
+
 			if (entry.nextEntry == null) {
-				
-				for(int i = index; i<table.length ; i++) {
-					
-					if(table[index] != null) {
-						
+				for (int i = index; i < table.length; i++) {
+
+					if (table[index] != null) {
+
 						index = i;
 						entry = table[index++];
 						break;
@@ -593,11 +544,12 @@ public class MyMap implements MyStringMap {
 		}
 
 		private Entry findFirstEntry() {
+
 			if (entry == null) {
 				for (int i = index; i < table.length; i++) {
 
-					if (table[index] != null) {
-						System.out.println(index);
+					if (table[i] != null) {
+
 						index = i;
 						entry = table[index++];
 
@@ -608,5 +560,4 @@ public class MyMap implements MyStringMap {
 			return entry;
 		}
 	}
-
 }

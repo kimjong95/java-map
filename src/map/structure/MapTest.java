@@ -13,7 +13,7 @@ public class MapTest {
 
 		while (true) {
 
-			if (key == 100) {
+			if (key == 20) {
 				break;
 			}
 			String strKey = key + "";
@@ -32,7 +32,7 @@ public class MapTest {
 
 		key = 1;
 		while (true) {
-			if (key == 100) {
+			if (key == 20) {
 				break;
 			}
 
@@ -44,20 +44,16 @@ public class MapTest {
 
 		Iterator<String> keyIter = map.keySet().iterator();
 
-		int a = 0;
+		System.out.println(keyIter.next());
+		System.out.println(keyIter.next());
+		System.out.println(keyIter.next());
+		System.out.println(keyIter.next());
+		System.out.println(keyIter.next());
+		System.out.println(keyIter.next());
+		System.out.println(keyIter.next());
+		System.out.println(keyIter.next());
+		System.out.println(keyIter.next());
 
-		// while(keyIter.hasNext()) {
-		System.out.println("반복 " + a + "번째");
-		System.out.println(keyIter.next());
-		System.out.println(keyIter.next());
-		System.out.println(keyIter.next());
-		System.out.println(keyIter.next());
-		System.out.println(keyIter.next());
-		System.out.println(keyIter.next());
-		System.out.println(keyIter.next());
-		System.out.println(keyIter.next());
-		System.out.println(keyIter.next());
-		System.out.println(keyIter.next());
 
 		Iterator<String> valIter = map.values().iterator();
 		System.out.println(valIter.next());
@@ -69,8 +65,7 @@ public class MapTest {
 		System.out.println(valIter.next());
 		System.out.println(valIter.next());
 		System.out.println(valIter.next());
-		// a++;
-		// }
+
 
 		// map.clear();
 		//
